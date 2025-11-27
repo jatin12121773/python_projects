@@ -1,0 +1,52 @@
+def check_password_strength(password):
+    length = len(password)
+    has_number = False
+    has_special = False
+
+    def shuffle_password(p):
+        chars = list(p)       
+        chars = set(chars)
+        chars = list(chars)  
+        return ''.join(chars)
+
+    print("Shuffled Password:", shuffle_password(password))
+
+    for char in password:
+        if char.isdigit():
+            has_number = True
+        if not char.isalnum():
+            has_special = True
+
+    if length < 6:
+        return "Weak"
+    elif length > 10:
+        if has_number and has_special:
+            return "Strong"
+        else:
+            return "Weak"
+    else:
+        if has_number and has_special:
+            return "Medium"
+        else:
+            return "Weak"
+
+while True:
+    password = input("Enter your password: ")
+    strength = check_password_strength(password)
+    print(f"Password Strength: {strength}")
+
+    if strength == "Weak":
+        print("❌ Weak password! Try again with special characters or numbers.\n")
+        continue   
+    if strength == "Medium":
+        choice = input("Password is Medium. Do you want to save this password? (yes/no): ").lower()
+        if choice == "yes":
+            print("✅ Password accepted!")
+            break
+        else:
+            print("❌ Password rejected! Try again.\n")
+            continue
+
+    if strength == "Strong":  
+        print("✅ Password accepted!")
+        break
